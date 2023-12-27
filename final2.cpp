@@ -16,9 +16,47 @@ struct incorrect{
 struct notFile{
 	int f = -4;
 };
-auto Makevector(const char* l){
+
+int Algorithm(std::vector<std::pair<int, int>> intervals){
+	sort(intervals.begin(), intervals.end());
+	 for (int i = 0; i < intervals.size(); i++)
+        { 
+			if( intervals[i].second < 0 || intervals[i].first < 0){
+				return -1;
+			}
+			if( intervals[i].second > 1000000 || intervals[i].first > 999999){
+				return -2;
+			}
+			if( intervals[i].second < intervals[i].first ){
+				return -3;
+			}
+          
+        }
+	std::map<int, int> rooms; 
+    int roomNumber = 1;
+    
+    for(auto interval : intervals) {
+        auto it = rooms.lower_bound(interval.first);
+        if(it == rooms.begin()) {
+
+            rooms[interval.second] = roomNumber;
+            std::cout << interval.first << " " << interval.second << " - " << roomNumber << std::endl;
+            roomNumber++;
+        } else {
+            it--; 
+            int room = it->second;
+            rooms.erase(it); 
+            rooms[interval.second] = room; 
+            std::cout << interval.first << " " << interval.second << " - " << room << std::endl;
+        }
+    }
+    return roomNumber -1;
+}
+
+int Makevector(const char* l){
 	int n;
     int i = 0;
+    int Rooms;
     std::pair<int, int> p;
     std::ifstream in(l); 
     std::vector<std::pair<int, int>> intervals;
@@ -45,18 +83,10 @@ auto Makevector(const char* l){
 	}
     in.close();
 
-    sort(intervals.begin(), intervals.end()); 
     
-    return intervals;
-}
-
-int Algorithm(const char* l){
-	std::vector<std::pair<int, int>> intervals;
-	
-	try{
-	intervals = Makevector(l);
+    try{
+    Rooms = Algorithm(intervals);
 	}
-	
 	catch(const negativeHours& n){
 		return -1;
 	}
@@ -70,33 +100,20 @@ int Algorithm(const char* l){
 	catch(const notFile& f){
 		return -4;
 	}
-	std::map<int, int> rooms; 
-    int roomNumber = 1;
-    
-    for(auto interval : intervals) {
-        auto it = rooms.lower_bound(interval.first);
-        if(it == rooms.begin()) {
-
-            rooms[interval.second] = roomNumber;
-            std::cout << interval.first << " " << interval.second << " - " << roomNumber << std::endl;
-            roomNumber++;
-        } else {
-            it--; 
-            int room = it->second;
-            rooms.erase(it); 
-            rooms[interval.second] = room; 
-            std::cout << interval.first << " " << interval.second << " - " << room << std::endl;
-        }
-    }
-    return roomNumber -1;
+	
+	
+    return Rooms;
 }
+
+
 
 int main() {
 	
-	const char* l = "C:\\Users\\Admin\\Desktop\\final1.txt";
-    std::cout <<  Algorithm(l) << std::endl; 
+	const char* l =  "C:\\Users\\Admin\\Desktop\\final1.txt";
+	std::vector <std::pair<int, int>> v = {{5, 10000000}, {3, 7}};
+    std::cout << Algorithm(v) << std::endl; 
+    std::cout << Makevector(l) << std::endl;
 	
 	
     return 0;
 }
-

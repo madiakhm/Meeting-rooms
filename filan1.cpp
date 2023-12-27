@@ -2,16 +2,27 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-
+#include <fstream>
 
 int main() {
-    int n;
-    std::cin >> n;
+	int n;
+    int i = 0;
+    std::pair<int, int> p;
+    std::ifstream in("final1.txt"); 
+    std::vector<std::pair<int, int>> intervals;
     
-    std::vector<std::pair<int, int>> intervals(n);
-    for(int i = 0; i < n; i++) {
-        std::cin >> intervals[i].first >> intervals[i].second;
+  
+    intervals.push_back(p);
+    if (in.is_open())
+    {
+        while (in >>  intervals[i].first >> intervals[i].second)
+        { 
+			intervals.push_back(p);
+            i++;
+        }
     }
+    in.close();
+
     sort(intervals.begin(), intervals.end()); 
     
     std::map<int, int> rooms; 

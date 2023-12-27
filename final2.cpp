@@ -4,14 +4,14 @@
 #include <algorithm>
 #include <fstream>
 
-int main() {
+
+auto Makevector(){
 	int n;
     int i = 0;
     std::pair<int, int> p;
     std::ifstream in("final1.txt"); 
     std::vector<std::pair<int, int>> intervals;
     
-  
     intervals.push_back(p);
     if (in.is_open())
     {
@@ -25,7 +25,13 @@ int main() {
 
     sort(intervals.begin(), intervals.end()); 
     
-    std::map<int, int> rooms; 
+    return intervals;
+}
+
+int algorithm(){
+	std::vector<std::pair<int, int>> intervals = Makevector();
+	
+	std::map<int, int> rooms; 
     int roomNumber = 1;
     
     for(auto interval : intervals) {
@@ -43,7 +49,11 @@ int main() {
             std::cout << interval.first << " " << interval.second << " - " << room << std::endl;
         }
     }
-    std::cout << roomNumber - 1 << std::endl; 
+    return roomNumber;
+}
+
+int main() {
+    std::cout <<  algorithm() - 1 << std::endl; 
     return 0;
 }
 

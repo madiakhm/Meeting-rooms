@@ -4,12 +4,23 @@
 #include <algorithm>
 #include <fstream>
 
-
-auto Makevector(){
+struct negativeHours{
+	int n = -1;
+};
+struct maxHours{
+	int m = -2;
+};
+struct incorrect{
+	int i = -3;
+};
+struct notFile{
+	int f = -4;
+};
+auto Makevector(const char* l){
 	int n;
     int i = 0;
     std::pair<int, int> p;
-    std::ifstream in("final1.txt"); 
+    std::ifstream in(l); 
     std::vector<std::pair<int, int>> intervals;
     
     intervals.push_back(p);
@@ -17,10 +28,21 @@ auto Makevector(){
     {
         while (in >>  intervals[i].first >> intervals[i].second)
         { 
+			if( intervals[i].second < 0 || intervals[i].first < 0){
+				throw negativeHours();
+			}
+			if( intervals[i].second > 1000000 || intervals[i].first > 999999){
+				throw maxHours();
+			}
+			if( intervals[i].second < intervals[i].first ){
+				throw incorrect();
+			}
 			intervals.push_back(p);
             i++;
         }
-    }
+    }else{
+		throw notFile();
+	}
     in.close();
 
     sort(intervals.begin(), intervals.end()); 
@@ -28,9 +50,26 @@ auto Makevector(){
     return intervals;
 }
 
-int algorithm(){
-	std::vector<std::pair<int, int>> intervals = Makevector();
+int Algorithm(const char* l){
+	std::vector<std::pair<int, int>> intervals;
 	
+	try{
+	intervals = Makevector(l);
+	}
+	
+	catch(const negativeHours& n){
+		return -1;
+	}
+	
+	catch(const maxHours& m){
+		return -2;
+	}
+	catch(const  incorrect& i){
+		return -3;
+	}
+	catch(const notFile& f){
+		return -4;
+	}
 	std::map<int, int> rooms; 
     int roomNumber = 1;
     
@@ -49,11 +88,15 @@ int algorithm(){
             std::cout << interval.first << " " << interval.second << " - " << room << std::endl;
         }
     }
-    return roomNumber;
+    return roomNumber -1;
 }
 
 int main() {
-    std::cout <<  algorithm() - 1 << std::endl; 
+	
+	const char* l = "C:\\Users\\Admin\\Desktop\\final1.txt";
+    std::cout <<  Algorithm(l) << std::endl; 
+	
+	
     return 0;
 }
 

@@ -1,10 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <fstream>
 #include "Makevector.cpp"
 
-int Algorithm(const char* l){
+void Algorithm(const char* l){
 	std::vector<std::pair<int, int>> intervals;
+	const char* o = "C:\\Users\\Admin\\Desktop\\output.txt";
+	std::ofstream out(o);
 	
 	try{
 	intervals = Makevector(l);
@@ -12,17 +15,21 @@ int Algorithm(const char* l){
 	}
 	
 	catch(const negativeHours& n){
-		return -1;
+		out << "negative Hours" << std::endl;
+		return;
 	}
 	
 	catch(const maxHours& m){
-		return -2;
+		out << "max Hours" << std::endl;
+		return;
 	}
 	catch(const  incorrect& i){
-		return -3;
+		out << "incorrect" << std::endl;
+		return ;
 	}
 	catch(const notFile& f){
-		return -4;
+		out << "not File" << std::endl;
+		return;
 	}
 	std::map<int, int> rooms; 
     int roomNumber = 1;
@@ -32,15 +39,14 @@ int Algorithm(const char* l){
         if(it == rooms.begin()) {
 
             rooms[interval.second] = roomNumber;
-            std::cout << interval.first << " " << interval.second << " - " << roomNumber << std::endl;
             roomNumber++;
         } else {
             it--; 
             int room = it->second;
             rooms.erase(it); 
             rooms[interval.second] = room; 
-            std::cout << interval.first << " " << interval.second << " - " << room << std::endl;
         }
     }
-    return roomNumber -1;
+   out << roomNumber - 1 << std::endl;
+   out.close();
 }

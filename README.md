@@ -12,13 +12,15 @@ This program is designed to allocate rooms for a given set of intervals.
    For example:
 
    [10,12]
+   
    [11,13]
-   [14,15]
+
+    [14,15]
    
 
-2. Save the file with a .txt extension.
+3. Save the file with a .txt extension.
 
-3. In the main.cpp file, change the value of the n variable to the number of intervals in the text file and the value of the inputFile variable to the path of the text file.
+4. In the main.cpp file, change the value of the n variable to the number of intervals in the text file and the value of the inputFile variable to the path of the text file.
 
       int n = 3; // Change to the number of intervals in the text file
    
@@ -48,14 +50,6 @@ Suppose we have the following intervals:
 [11,13]
 
 [14,15]
-
-
-We can visualize them on a timeline:
-
-|----|    |----|
-
-    |----|    |-|
-
 
 We can see that two rooms are required to accommodate all the intervals.
 
@@ -99,7 +93,10 @@ The program requires the following libraries:
 - vector
 - map
 - fstream
+## The time complexity
 
-## License
+The time complexity of the room allocation algorithm is O(n log n), where n is the number of intervals. This is due to the sorting of the intervals by start time, which takes O(n log n) time using an efficient sorting algorithm such as quicksort or mergesort.
 
-This program is licensed under the MIT License. See LICENSE for more information.
+In addition, the algorithm uses a map to keep track of allocated rooms, which has a worst-case time complexity of O(log n) for insertion and retrieval operations. However, since the number of rooms is typically much smaller than the number of intervals, the actual time complexity is usually much lower.
+
+Overall, the room allocation algorithm is efficient and can handle large numbers of intervals with reasonable performance.
